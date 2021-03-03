@@ -13,6 +13,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SharedPreferences preferences = this.getSharedPreferences("numEvents", Context.MODE_PRIVATE);
-        preferences.edit().clear().apply();
+        preferences.edit().putInt("numEvents", 0).apply();
     }
 }

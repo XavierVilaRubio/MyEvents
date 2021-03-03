@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class FirstFragment extends Fragment {
 
-    TextView numEventsTextView;
+    TextView createdEventsTextView;
     String numEventsKey = "numEvents";
 
 
@@ -33,18 +33,17 @@ public class FirstFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_first, container, false);
 
-        numEventsTextView = view.findViewById(R.id.textView_numEvents);
+        createdEventsTextView = view.findViewById(R.id.textView_createdEvents);
 
         boolean myArg = FirstFragmentArgs.fromBundle(getArguments()).getMyArg();
         if(myArg)
             saveValue(numEventsKey, getValue(numEventsKey) + 1);
 
-            numEventsTextView.setText(String.valueOf(getValue(numEventsKey)));
+        createdEventsTextView.setText(getString(R.string.textView_createdEvents_text, getValue(numEventsKey)));
 
         view.findViewById(R.id.button_create).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveValue(numEventsKey, Integer.parseInt(numEventsTextView.getText().toString()));
                 Navigation.findNavController(view).navigate(R.id.action_firstFragment_to_secondFragment);
             }
         });

@@ -33,12 +33,6 @@
             android:layout_height="wrap_content"
             android:text="@string/textView_createdEvents_text" />
 
-        <TextView
-            android:id="@+id/textView_numEvents"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
