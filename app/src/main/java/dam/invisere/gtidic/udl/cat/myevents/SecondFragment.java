@@ -37,7 +37,7 @@ public class SecondFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_second, container, false);
-        numEvents_arg = SecondFragmentArgs.fromBundle(getArguments()).getNumEvents2Arg();
+        numEvents_arg = SecondFragmentArgs.fromBundle(getArguments()).getNumEventsArg();
 
         EditText titleEditText = view.findViewById(R.id.textField_name);
         EditText descriptionEditText = view.findViewById(R.id.textField_description);

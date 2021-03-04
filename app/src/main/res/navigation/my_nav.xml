@@ -26,7 +26,7 @@
             android:id="@+id/action_secondFragment_to_firstFragment"
             app:destination="@id/firstFragment" />
         <argument
-            android:name="numEvents2_arg"
+            android:name="numEvents_arg"
             app:argType="integer" />
     </fragment>
 </navigation>
