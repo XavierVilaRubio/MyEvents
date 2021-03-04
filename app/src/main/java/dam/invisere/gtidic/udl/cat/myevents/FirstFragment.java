@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,6 @@ import android.widget.TextView;
 public class FirstFragment extends Fragment {
 
     TextView createdEventsTextView;
-    String numEventsKey = "numEvents";
-
 
     public FirstFragment() {
         // Required empty public constructor
@@ -35,32 +34,19 @@ public class FirstFragment extends Fragment {
 
         createdEventsTextView = view.findViewById(R.id.textView_createdEvents);
 
-        boolean myArg = FirstFragmentArgs.fromBundle(getArguments()).getMyArg();
-        if(myArg)
-            saveValue(numEventsKey, getValue(numEventsKey) + 1);
+        int numEvents_arg = FirstFragmentArgs.fromBundle(getArguments()).getNumEventsArg();
 
-        createdEventsTextView.setText(getString(R.string.textView_createdEvents_text, getValue(numEventsKey)));
+        createdEventsTextView.setText(getString(R.string.textView_createdEvents_text, numEvents_arg));
 
         view.findViewById(R.id.button_create).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_firstFragment_to_secondFragment);
+                FirstFragmentDirections.ActionFirstFragmentToSecondFragment action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(numEvents_arg);
+                Log.d(null, String.valueOf(numEvents_arg));
+                Navigation.findNavController(view).navigate(action);
             }
         });
 
         return view;
-    }
-
-    private void saveValue(String key, int value) {
-        SharedPreferences preferences = getActivity().getSharedPreferences(key, Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(key, value);
-        editor.apply();
-    }
-
-    private int getValue(String key) {
-        SharedPreferences preferences = this.getActivity().getSharedPreferences(key, Context.MODE_PRIVATE);
-        return preferences.getInt(key, 0);
     }
 }

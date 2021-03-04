@@ -12,7 +12,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences preferences = this.getSharedPreferences("numEvents", Context.MODE_PRIVATE);
-        preferences.edit().putInt("numEvents", 0).apply();
     }
 }

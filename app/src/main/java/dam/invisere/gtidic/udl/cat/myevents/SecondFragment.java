@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.core.util.Pair;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import java.util.Date;
 
 public class SecondFragment extends Fragment {
 
+    int numEvents_arg;
+    Long[] dates = new Long[2];
 
     public SecondFragment() {
         // Required empty public constructor
@@ -34,20 +37,24 @@ public class SecondFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_second, container, false);
-        SecondFragmentDirections.ActionSecondFragmentToFirstFragment action = SecondFragmentDirections.actionSecondFragmentToFirstFragment();
+        numEvents_arg = SecondFragmentArgs.fromBundle(getArguments()).getNumEvents2Arg();
 
         EditText titleEditText = view.findViewById(R.id.textField_name);
         EditText descriptionEditText = view.findViewById(R.id.textField_description);
-        final Long[] dates = new Long[2];
+
+        //Move inside onClick function, it's here just for testing
+        Pair<Long, Long> defaultSelection = new Pair<Long, Long>(System.currentTimeMillis(), System.currentTimeMillis());
+        MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.dateRangePicker();
+        builder.setSelection(defaultSelection);
+        dates[0] = defaultSelection.first;
+        dates[1] = defaultSelection.second;
+        builder.setTheme(R.style.ThemeOverlay_MaterialComponents_MaterialCalendar);
+        MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
 
         view.findViewById(R.id.textField_date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.dateRangePicker();
-                builder.setTheme(R.style.ThemeOverlay_MaterialComponents_MaterialCalendar);
-                MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
                 materialDatePicker.show(getActivity().getSupportFragmentManager(), materialDatePicker.toString());
-
                 materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
                     @Override
                     public void onPositiveButtonClick(Pair<Long, Long> selection) {
@@ -63,7 +70,9 @@ public class SecondFragment extends Fragment {
         view.findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                action.setMyArg(false);
+                SecondFragmentDirections.ActionSecondFragmentToFirstFragment action = SecondFragmentDirections.actionSecondFragmentToFirstFragment();
+                action.setNumEventsArg(numEvents_arg);
+                Log.d(null, String.valueOf(numEvents_arg));
                 Navigation.findNavController(view).navigate(action);
             }
         });
@@ -78,7 +87,10 @@ public class SecondFragment extends Fragment {
                         dates[1]
                 );
                 newEvent.show(getActivity().getSupportFragmentManager(), newEvent.toString());
-                action.setMyArg(true);
+                SecondFragmentDirections.ActionSecondFragmentToFirstFragment action = SecondFragmentDirections.actionSecondFragmentToFirstFragment();
+                numEvents_arg++;
+                action.setNumEventsArg(numEvents_arg);
+                Log.d(null, String.valueOf(numEvents_arg));
                 Navigation.findNavController(view).navigate(action);
             }
         });
