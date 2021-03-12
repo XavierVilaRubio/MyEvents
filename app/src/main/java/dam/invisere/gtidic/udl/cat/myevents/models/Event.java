@@ -1,4 +1,4 @@
-package dam.invisere.gtidic.udl.cat.myevents;
+package dam.invisere.gtidic.udl.cat.myevents.models;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,32 +14,59 @@ import java.util.Date;
 
 public class Event extends AppCompatDialogFragment {
 
-    public String title;
+    public String name;
     public String description;
-    public Long startDate;
-    public Long endDate;
+    public Date startDate;
+    public Date endDate;
 
-    public Event(String title, String description, Long startDate, Long endDate) {
-        this.title = title;
+    public Event(){
+        this.name = "";
+        this.description = "";
+        this.startDate = new Date();
+        this.endDate = new Date();
+    }
+
+    public Event(String name, String description, Date startDate, Date endDate) {
+        this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public int millisecondsToDays(Long milliseconds) {
-        return (int) (milliseconds / (1000*60*60*24));
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public int daysToStart(){
-        return millisecondsToDays(this.startDate - System.currentTimeMillis());
+        Date now = new Date();
+        return DateUtils.getDuration(this.startDate, now);
+    }
+
+    public int daysToEnd(){
+        Date now = new Date();
+        return DateUtils.getDuration(this.endDate, now);
     }
 
     public int duration(){
-        return millisecondsToDays((endDate - startDate));
+        return DateUtils.getDuration(this.startDate, this.endDate);
     }
 
-    public String toString(Long date) {
+    public String toString(Date date) {
         return new SimpleDateFormat("dd/MM/yyyy").format(date);
+    }
+
+    public EventStatus getStatus(){
+        if(this.daysToStart() > 0){
+            return EventStatus.NEW;
+        }
+        if(this.daysToEnd() < 0){
+            return EventStatus.FINISHED;
+        }
+        return EventStatus.ONGOING;
     }
 
     @NonNull
@@ -48,7 +75,7 @@ public class Event extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("New event created")
                 .setMessage(
-                        "Title: " + title + '\n' +
+                        "Title: " + name + '\n' +
                         "Description: " + description + '\n' +
                         "Start date: " + toString(startDate) + '\n' +
                         "End date: " + toString(endDate) + '\n' +

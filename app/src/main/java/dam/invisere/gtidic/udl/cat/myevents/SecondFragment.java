@@ -17,10 +17,12 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 
 import java.util.Date;
 
+import dam.invisere.gtidic.udl.cat.myevents.models.Event;
+
 public class SecondFragment extends Fragment {
 
     int numEvents_arg;
-    Long[] dates = new Long[2];
+    Date[] dates = new Date[2];
 
     public SecondFragment() {
         // Required empty public constructor
@@ -43,11 +45,7 @@ public class SecondFragment extends Fragment {
         EditText descriptionEditText = view.findViewById(R.id.textField_description);
 
         //Move inside onClick function, it's here just for testing
-        Pair<Long, Long> defaultSelection = new Pair<Long, Long>(System.currentTimeMillis(), System.currentTimeMillis());
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.dateRangePicker();
-        builder.setSelection(defaultSelection);
-        dates[0] = defaultSelection.first;
-        dates[1] = defaultSelection.second;
         builder.setTheme(R.style.ThemeOverlay_MaterialComponents_MaterialCalendar);
         MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
 
@@ -60,8 +58,8 @@ public class SecondFragment extends Fragment {
                     public void onPositiveButtonClick(Pair<Long, Long> selection) {
                         EditText date = getActivity().findViewById(R.id.textField_date);
                         date.setText(materialDatePicker.getHeaderText());
-                        dates[0] = selection.first;
-                        dates[1] = selection.second;
+                        dates[0] = new Date(selection.first * 1000);
+                        dates[1] = new Date(selection.second * 1000);
                     }
                 });
             }
