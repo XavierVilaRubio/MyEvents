@@ -16,6 +16,9 @@
         <argument android:name="numEvents_arg"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_firstFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/secondFragment"
@@ -28,5 +31,14 @@
         <argument
             android:name="numEvents_arg"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="dam.invisere.gtidic.udl.cat.myevents.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_firstFragment"
+            app:destination="@id/firstFragment" />
     </fragment>
 </navigation>

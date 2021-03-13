@@ -47,6 +47,13 @@ public class FirstFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.button_login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(FirstFragmentDirections.actionFirstFragmentToLoginFragment());
+            }
+        });
+
         return view;
     }
 }
